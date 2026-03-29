@@ -1,28 +1,28 @@
 name: Validate tests against reference on main branch
-on: 
-    push: 
-        branches:
-         - 'main'
+'on':
+  push:
+    branches:
+    - main
 jobs:
   tests:
     name: Check that tests are valid
-    if: github.repository_owner == 'browncs1260'
+    if: github.repository_owner == 'playground-nils'
     runs-on: ubuntu-latest
     container:
-        image: jiahuac/cs1260:main
-        options: --user root  
+      image: jiahuac/cs1260:main
+      options: --user root
     steps:
-      - name: Check out assignments repo
-        uses: actions/checkout@v4
-        with:
-            repository: 'BrownCS1260-fall-2023/finalhw-stencil'
-            submodules: recursive
-            path: 'hw'
-      - name: Check out benchmark tests repo
-        uses: actions/checkout@v4
-        with:
-            path: 'hw/benchmarks'
-      - name: Run benchmarks
-        working-directory: 'hw/benchmarks'
-        run: chmod -R 1777 ../ && su - cs1260_user -c "cd $(pwd) && eval \$(opam env) && python3 bench.py --repeat 1"
-    
+    - name: Check out assignments repo
+      uses: actions/checkout@v4
+      with:
+        repository: BrownCS1260-fall-2023/finalhw-stencil
+        submodules: recursive
+        path: hw
+    - name: Check out benchmark tests repo
+      uses: actions/checkout@v4
+      with:
+        path: hw/benchmarks
+    - name: Run benchmarks
+      working-directory: hw/benchmarks
+      run: chmod -R 1777 ../ && su - cs1260_user -c "cd $(pwd) && eval \$(opam env)
+        && python3 bench.py --repeat 1"
